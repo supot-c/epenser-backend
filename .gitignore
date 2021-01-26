@@ -1,3 +1,4 @@
 *.env
 *.yaml
 *.sqlite
+app.yaml

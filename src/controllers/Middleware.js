@@ -9,13 +9,11 @@ module.exports = {
     }
     
     const [type, token] = bheader.split(' ');
-    // console.log('token', token);
     if (type !== 'Bearer') {
       res
         .status(403)
         .send({message: 'Wrong authentication token type provided.'});
     }
-    // req.token = token;
 
     try {
       const data = jwt.verify(token, config.Authentication.secret);
@@ -39,8 +37,16 @@ module.exports = {
         next()
       }
     } catch (err) {
-      // console.log(err.message);
       res.status(403).send({error: err.message});
+    }
+  },
+
+  isAdmin (req, res, next) {
+    if (req.user.username == 'candy'){
+      next()
+    }
+    else{
+      res.status(403).send({error: 'Permission denied.'})
     }
   }
 }

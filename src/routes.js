@@ -9,7 +9,7 @@ const Middleware = require('./controllers/Middleware');
 
 module.exports = app => {
   app.get('/OTA', AuthController.ota);
-  app.get('/AU', AuthController.all);
+  app.get('/AU', Middleware.verify_token, Middleware.isAdmin,AuthController.all);
 
   
   app.post('/register', AuthController.register);
@@ -34,9 +34,4 @@ module.exports = app => {
 
   app.post('/store/create', Middleware.verify_token, storeController.create);
   app.get('/store', Middleware.verify_token, storeController.index);
-
-  //not project related routes
-  // netfli payment payment status
-  app.post('/wearesoab', UtilitiesController.flistatus);
-  app.get('/wearesoab', UtilitiesController.flistatus);
 };
